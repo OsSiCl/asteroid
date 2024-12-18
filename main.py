@@ -1,7 +1,15 @@
 import pygame
 
 from constants import *
+from circleshape import *
+from player import *
+from asteroid import *
 
+
+updatable = pygame.sprite.Group()
+drawable = pygame.sprite.Group()
+
+Player.containers = (updatable, drawable)
 
 def main():
 
@@ -12,18 +20,27 @@ def main():
     clock =  pygame.time.Clock()
     dt = 0
 
-    # Game loop
-    while True:
+    player = Player(x = SCREEN_WIDTH / 2, y = SCREEN_HEIGHT / 2)
 
+
+
+
+    # Game loop
+    running = True
+    while running:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return
+                running = False
 
-        screen.fill(color=000000)
+        screen.fill("black")
+
+        for item in updatable:
+            item.update(dt)
+        for sprite in drawable:
+            sprite.draw(screen)
         pygame.display.flip()
-
-        clock.tick(60)
-        dt = clock.tick()/1000
+        
+        dt = clock.tick(60)/1000
 
 
 
